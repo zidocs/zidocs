@@ -1,6 +1,6 @@
 {
   "name": "zidocs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
@@ -8,7 +8,10 @@
     "install:global": "npx tsc && npm install -g .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository":"https://github.com/zidocs/zidocs",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:zidocs/zidocs.git"
+  },
   "bin": {
     "zidocs": "./dist/index.js"
   },
