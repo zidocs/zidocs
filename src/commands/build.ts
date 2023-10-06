@@ -5,12 +5,13 @@ const sourceFolderPath = process.cwd();
 
 export const build = () => {
   const cloningCommands = `if [ ! -d .front ] ; then
+    cd
     git clone https://github.com/zidocs/front.git .front
     cd .front
     rm -rf .git
   fi`;
 
-  const copyStarterKit = `cp -r ${sourceFolderPath} ${path.join(
+  const copyStarterKit = `cd && cp -r ${sourceFolderPath} ${path.join(
     sourceFolderPath,
     ".front/public"
   )}`;
