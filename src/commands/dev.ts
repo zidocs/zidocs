@@ -12,7 +12,6 @@ export const dev = () => {
     persistent: true,
   });
 
-  console.log("✔ Local Zidocs instance is ready. Launching your site...");
   watcher.on("change", (actualPath: any) => {
     const destinationPath = actualPath.replace(
       sourceFolderPath,
@@ -52,6 +51,8 @@ export const dev = () => {
       ".front"
     )} && npm install && NEXT_PUBLIC_DIR_NAME=${sourceFolderPath} npm run dev`
   );
+
+  console.log("✔ Local Zidocs instance is ready. Launching your site...");
 
   if (docsProcess.stdout) {
     docsProcess.stdout.on("data", (data: any) => {
