@@ -40,10 +40,10 @@ export const dev = () => {
     rm -rf .git
   fi`;
 
-  const copyStarterKit = `rsync -a -q -i ${sourceFolderPath} ${path.join(
+  const copyStarterKit = `cp -r ${sourceFolderPath} ${path.join(
     sourceFolderPath,
     ".front/public"
-  )} --exclude .front`;
+  )}`;
 
   const docsProcess = exec(
     `${cloningCommands} && ${copyStarterKit} && cd ${path.join(
