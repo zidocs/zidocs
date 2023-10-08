@@ -1,10 +1,17 @@
-import path from "path";
 import chokidar from "chokidar";
 import fs from "fs-extra";
 import { exec } from "child_process";
+import { homedir } from "os";
+
+import {
+  cloneFrontCommand,
+  copyStarterKitCommandToFront,
+  copyStarterKitCommandToZidocs,
+} from "./common";
 var clc = require("cli-color");
 
 const sourceFolderPath = process.cwd();
+const homeDir = homedir();
 
 export const dev = () => {
   const watcher = chokidar.watch(sourceFolderPath, {
@@ -12,10 +19,11 @@ export const dev = () => {
     persistent: true,
   });
 
+  // TODO: AJEITAR ISSO
   watcher.on("change", (actualPath: any) => {
     const destinationPath = actualPath.replace(
       sourceFolderPath,
-      path.join(sourceFolderPath, "./.front/public/starter-kit")
+      `${homeDir}/.zidocs/.front/public/starter-kit`
     );
 
     const fileName = actualPath.split("/").at(-1);
@@ -34,29 +42,17 @@ export const dev = () => {
       });
   });
 
-  const cloningCommands = `if [ ! -d .front ] ; then
-    git clone https://github.com/zidocs/front.git .front
-    cd .front
-    rm -rf .git
-  fi`;
-
-  const copyStarterKit = `cp -r ${sourceFolderPath} ${path.join(
-    sourceFolderPath,
-    ".front/public"
-  )}`;
-
   const docsProcess = exec(
-    `${cloningCommands} && ${copyStarterKit} && cd ${path.join(
-      sourceFolderPath,
-      ".front"
-    )} && npm install && NEXT_PUBLIC_DIR_NAME=${sourceFolderPath} npm run dev`
+    `mkdir ${homeDir}/.zidocs && cd ${homeDir}/.zidocs && ${copyStarterKitCommandToZidocs(
+      sourceFolderPath
+    )} && ${cloneFrontCommand} && ${copyStarterKitCommandToFront} && cd ${homeDir}/.zidocs/.front && npm install && npm run dev`
   );
-
-  console.log("✔ Local Zidocs instance is ready. Launching your site...");
 
   if (docsProcess.stdout) {
     docsProcess.stdout.on("data", (data: any) => {
       if (data.includes("Ready in")) {
+        console.log("✔ Local Zidocs instance is ready. Launching your site...");
+
         console.log(
           clc.magentaBright("Z Press Ctrl+C any time to stop the local preview")
         );

@@ -1,27 +1,20 @@
 import path from "path";
 import { exec } from "child_process";
+import {
+  cloneFrontCommand,
+  copyStarterKitCommandToFront,
+  homeDir,
+} from "./common";
 
 const sourceFolderPath = process.cwd();
 
 export const build = () => {
-  const cloningCommands = `if [ ! -d .front ] ; then
-    cd
-    git clone https://github.com/zidocs/front.git .front
-    cd .front
-    rm -rf .git
-  fi`;
-
-  const copyStarterKit = `cd && cp -r ${sourceFolderPath} ${path.join(
+  const command = `mkdir ${homeDir}/.zidocs && cd ~/.zidocs && cp -r ${path.join(
     sourceFolderPath,
-    ".front/public"
-  )}`;
+    "/."
+  )} ${homeDir}/.zidocs/starter-kit && ${cloneFrontCommand} && ${copyStarterKitCommandToFront} && cd ${homeDir}/.zidocs/.front && npm install && npm run build && cp -r ${homeDir}/.zidocs/.front/.next ${sourceFolderPath}`;
 
-  const docsProcess = exec(
-    `${cloningCommands} && ${copyStarterKit} && cd ${path.join(
-      sourceFolderPath,
-      ".front"
-    )} && npm install && npm run build && exit`
-  );
+  const docsProcess = exec(`${command} && exit`);
 
   if (docsProcess.stdout) {
     docsProcess.stdout.on("data", (data: any) => {
