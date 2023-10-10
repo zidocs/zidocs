@@ -1,10 +1,9 @@
 import { exec } from "child_process";
 import { initializeCommand, zidocsFolder } from "./common";
 
-export const install = () => {
-  const command = `rm -rf ${zidocsFolder} && ${initializeCommand} && npm install`;
-
-  const docsProcess = exec(`${command} && exit`);
+export const install = async () => {
+  await initializeCommand();
+  const docsProcess = exec(`npm install`);
 
   if (docsProcess.stdout) {
     docsProcess.stdout.on("data", (data: any) => {

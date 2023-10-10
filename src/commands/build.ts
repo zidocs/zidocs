@@ -1,10 +1,11 @@
 import { exec } from "child_process";
 import { frontFolder, sourceFolderPath, initializeCommand } from "./common";
 
-export const build = () => {
-  const command = `${initializeCommand} && npm install && npm run build && cp -r ${frontFolder}/.next ${sourceFolderPath}`;
-
-  const docsProcess = exec(`${command} && exit`);
+export const build = async () => {
+  await initializeCommand();
+  const docsProcess = exec(
+    `npm install && npm run build && cp -r ${frontFolder}/.next ${sourceFolderPath} && exit`
+  );
 
   if (docsProcess.stdout) {
     docsProcess.stdout.on("data", (data: any) => {

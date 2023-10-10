@@ -1,13 +1,18 @@
 import chokidar from "chokidar";
 import fs from "fs-extra";
 import { exec } from "child_process";
-import { frontFolder, initializeCommand, sourceFolderPath } from "./common";
-import { Spinner } from "cli-spinner";
+import {
+  frontFolder,
+  initializeCommand,
+  sourceFolderPath,
+  spinner,
+  writeToLastLine,
+} from "./common";
 var clc = require("cli-color");
 
-const spin = new Spinner();
+export const dev = async () => {
+  spinner.start();
 
-export const dev = () => {
   const watcher = chokidar.watch(sourceFolderPath, {
     ignored: /front/,
     persistent: true,
@@ -36,23 +41,24 @@ export const dev = () => {
         console.error(clc.redBright(`Z Error copying file: ${error}`));
       });
   });
-  spin.setSpinnerString(
-    ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"].join("")
-  );
 
-  spin.start();
-  const docsProcess = exec(
-    `${initializeCommand} && npm install && npm run dev`
-  );
+  await initializeCommand();
+  const docsProcess = exec(`npm install && npm run dev`);
 
   if (docsProcess.stdout) {
     docsProcess.stdout.on("data", (data: any) => {
       if (data.includes("Ready in")) {
-        spin.stop();
-        console.log("✔ Local Zidocs instance is ready. Launching your site...");
+        spinner.stop();
+        writeToLastLine(
+          `${clc.greenBright(
+            "✔"
+          )} Local Zidocs instance is ready. Launching your site...`
+        );
 
         console.log(
-          clc.magentaBright("Z Press Ctrl+C any time to stop the local preview")
+          clc.magentaBright(
+            "\nZ Press Ctrl+C any time to stop the local preview"
+          )
         );
       }
 

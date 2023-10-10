@@ -2,10 +2,10 @@ import { exec } from "child_process";
 import { initializeCommand } from "./common";
 var clc = require("cli-color");
 
-export const start = () => {
-  const command = `${initializeCommand} && npm run build && npm run start`;
+export const start = async () => {
+  await initializeCommand();
 
-  const docsProcess = exec(`${command}`);
+  const docsProcess = exec(`npm run build && npm run start && exit`);
 
   if (docsProcess.stdout) {
     docsProcess.stdout.on("data", (data: any) => {
