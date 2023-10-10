@@ -1,17 +1,11 @@
 import chokidar from "chokidar";
 import fs from "fs-extra";
 import { exec } from "child_process";
-import { homedir } from "os";
-
-import {
-  cloneFrontCommand,
-  copyStarterKitCommandToFront,
-  copyStarterKitCommandToZidocs,
-} from "./common";
+import { frontFolder, initializeCommand, sourceFolderPath } from "./common";
+import { Spinner } from "cli-spinner";
 var clc = require("cli-color");
 
-const sourceFolderPath = process.cwd();
-const homeDir = homedir();
+const spin = new Spinner();
 
 export const dev = () => {
   const watcher = chokidar.watch(sourceFolderPath, {
@@ -19,11 +13,10 @@ export const dev = () => {
     persistent: true,
   });
 
-  // TODO: AJEITAR ISSO
   watcher.on("change", (actualPath: any) => {
     const destinationPath = actualPath.replace(
       sourceFolderPath,
-      `${homeDir}/.zidocs/.front/public/starter-kit`
+      `${frontFolder}/public/starter-kit`
     );
 
     const fileName = actualPath.split("/").at(-1);
@@ -35,22 +28,27 @@ export const dev = () => {
         return fs.copyFile(actualPath, destinationPath);
       })
       .then(() => {
-        console.log(clc.greenBright(`Z File copied successfully.`));
+        console.log(
+          clc.greenBright(`Z File ${fileName} changed successfully.`)
+        );
       })
       .catch((error: any) => {
         console.error(clc.redBright(`Z Error copying file: ${error}`));
       });
   });
+  spin.setSpinnerString(
+    ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"].join("")
+  );
 
+  spin.start();
   const docsProcess = exec(
-    `mkdir ${homeDir}/.zidocs && cd ${homeDir}/.zidocs && ${copyStarterKitCommandToZidocs(
-      sourceFolderPath
-    )} && ${cloneFrontCommand} && ${copyStarterKitCommandToFront} && cd ${homeDir}/.zidocs/.front && npm install && npm run dev`
+    `${initializeCommand} && npm install && npm run dev`
   );
 
   if (docsProcess.stdout) {
     docsProcess.stdout.on("data", (data: any) => {
       if (data.includes("Ready in")) {
+        spin.stop();
         console.log("✔ Local Zidocs instance is ready. Launching your site...");
 
         console.log(

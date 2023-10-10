@@ -1,9 +1,9 @@
 import { exec } from "child_process";
-import { homeDir } from "./common";
+import { initializeCommand } from "./common";
 var clc = require("cli-color");
 
 export const start = () => {
-  const command = `cd ${homeDir}/.zidocs/.front && npm run start`;
+  const command = `${initializeCommand} && npm run build && npm run start`;
 
   const docsProcess = exec(`${command}`);
 

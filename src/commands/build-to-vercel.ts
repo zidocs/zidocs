@@ -1,20 +1,9 @@
 import { exec } from "child_process";
-
-const sourceFolderPath = process.cwd();
+import { frontFolder, initializeCommand, sourceFolderPath } from "./common";
 
 export const buildToVercel = () => {
-  const cloningCommands = `if [ ! -d ~/.front ] ; then
-    cd
-    git clone https://github.com/zidocs/front.git .front
-    cd .front
-    rm -rf .git
-  fi`;
-
-  const copyStarterKitOne = `cp -r . ~/starter-kit && cd ~/starter-kit && ls`;
-  const copyStarterKit = `cp -r ~/starter-kit ~/.front/public && cd ~/.front/public && ls`;
-
   const docsProcess = exec(
-    `${copyStarterKitOne} && ${cloningCommands} && ${copyStarterKit} && cd ~/.front && npm install && cp -r ~/.front/. ${sourceFolderPath} && exit`
+    `${initializeCommand} && npm install && cp -r ${frontFolder}/. ${sourceFolderPath} && exit`
   );
 
   if (docsProcess.stdout) {

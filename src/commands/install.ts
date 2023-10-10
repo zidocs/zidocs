@@ -1,17 +1,8 @@
 import { exec } from "child_process";
-import {
-  cloneFrontCommand,
-  copyStarterKitCommandToFront,
-  copyStarterKitCommandToZidocs,
-  homeDir,
-} from "./common";
-
-const sourceFolderPath = process.cwd();
+import { initializeCommand, zidocsFolder } from "./common";
 
 export const install = () => {
-  const command = `mkdir ${homeDir}/.zidocs && cd ~/.zidocs && ${copyStarterKitCommandToZidocs(
-    sourceFolderPath
-  )} && ${cloneFrontCommand} && ${copyStarterKitCommandToFront} && cd ${homeDir}/.zidocs/.front && npm install`;
+  const command = `rm -rf ${zidocsFolder} && ${initializeCommand} && npm install`;
 
   const docsProcess = exec(`${command} && exit`);
 

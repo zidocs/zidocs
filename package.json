@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx tsc",
     "release": "npx tsc && npm publish",
-    "install:global": "npx tsc && npm install -g .",
+    "dev": "npx tsc && npm install -g .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,12 +24,14 @@
     "child_process": "^1.0.2",
     "chokidar": "^3.5.3",
     "cli-color": "^2.0.3",
+    "cli-spinner": "^0.2.10",
     "commander": "^11.0.0",
     "figlet": "^1.6.0",
     "fs-extra": "^11.1.1"
   },
   "devDependencies": {
     "@types/chokidar": "^2.1.3",
+    "@types/cli-spinner": "^0.2.1",
     "@types/figlet": "^1.5.6",
     "@types/node": "^20.6.0",
     "typescript": "^5.2.2"
