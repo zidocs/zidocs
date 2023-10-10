@@ -1,9 +1,10 @@
 import { exec } from "child_process";
 import { frontFolder, initializeCommand, sourceFolderPath } from "./common";
 
-export const buildToVercel = () => {
+export const buildToVercel = async () => {
+  await initializeCommand();
   const docsProcess = exec(
-    `${initializeCommand} && npm install && cp -r ${frontFolder}/. ${sourceFolderPath} && exit`
+    `npm install && cp -r ${frontFolder}/. ${sourceFolderPath} && exit`
   );
 
   if (docsProcess.stdout) {
