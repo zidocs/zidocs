@@ -7,7 +7,7 @@
 The Zidocs CLI is the easiest way to build Zidocs apps from the command line. 
 
 ### Installation
-Download the Mintlify CLI using the following command
+Download the Zidocs CLI using the following command
 ```
 npm i -g zidocs
 ```
