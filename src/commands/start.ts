@@ -12,7 +12,7 @@ export const start = async () => {
       if (data.includes("Ready in")) {
         console.log("✔ Local Zidocs instance is ready. Launching your site...");
         console.log(
-          clc.magentaBright("Z Press Ctrl+C any time to stop the local preview")
+          clc.cyanBright("Z Press Ctrl+C any time to stop the local preview")
         );
       }
 
@@ -21,9 +21,7 @@ export const start = async () => {
           .split(" ")
           .find((str: string) => str.startsWith("http"));
         console.log(
-          clc.magentaBright(
-            `Z Your local preview is available at ${url.trim()}`
-          )
+          clc.cyanBright(`Z Your local preview is available at ${url.trim()}`)
         );
       }
     });
@@ -41,7 +39,7 @@ export const start = async () => {
     } else {
       console.log(
         clc.redBright(
-          `Z Zidocs build failure... Try to run ${clc.magentaBright(
+          `Z Zidocs build failure... Try to run ${clc.cyanBright(
             "zidocs build"
           )} first...`
         )

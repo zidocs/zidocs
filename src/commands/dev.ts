@@ -56,20 +56,17 @@ export const dev = async () => {
         );
 
         console.log(
-          clc.magentaBright(
-            "\nZ Press Ctrl+C any time to stop the local preview"
-          )
+          clc.cyanBright("\nZ Press Ctrl+C any time to stop the local preview")
         );
       }
 
       if (data.includes("http")) {
+        spinner.stop();
         const url = data
           .split(" ")
           .find((str: string) => str.startsWith("http"));
         console.log(
-          clc.magentaBright(
-            `Z Your local preview is available at ${url.trim()}`
-          )
+          clc.cyanBright(`\nZ Your local preview is available at ${url.trim()}`)
         );
       }
     });
