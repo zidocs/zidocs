@@ -16,7 +16,7 @@
   "bin": {
     "zidocs": "./dist/index.js"
   },
-  "keywords": [],
+  "keywords": ["zidocs", "cli"],
   "author": "William Jonathan",
   "license": "ISC",
   "dependencies": {
