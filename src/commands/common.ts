@@ -41,18 +41,11 @@ export const ensureZidocsFolder = () => {
 };
 
 export const ensureStarterKitCommandToFront = async () => {
-  if (fs.existsSync(`${frontFolder}/public/starter-kit`)) {
-    await rimraf(`${frontFolder}/public/starter-kit`);
-  }
-  await fs.copy(starterKitFolder, `${frontFolder}/public/starter-kit`);
+  await fs.copy(starterKitFolder, `${frontFolder}/public`);
 };
 
 // DOC: Copia a pasta do starter-kit para dentro do .zidocs e se existir remove para copiar um novo!
 export const ensureStarterKitCommandToZidocs = async (sourcePath: string) => {
-  if (fs.existsSync(starterKitFolder)) {
-    await rimraf(starterKitFolder);
-  }
-
   await fs.copy(path.join(sourcePath, "/."), starterKitFolder);
 };
 

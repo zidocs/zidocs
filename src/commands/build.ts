@@ -4,7 +4,7 @@ import { frontFolder, sourceFolderPath, initializeCommand } from "./common";
 export const build = async () => {
   await initializeCommand();
   const docsProcess = exec(
-    `npm install && npm run build && cp -r ${frontFolder}/.next ${sourceFolderPath} && exit`
+    `npm install && npm run build && cp -r ${frontFolder}/out ${sourceFolderPath} && exit`
   );
 
   if (docsProcess.stdout) {

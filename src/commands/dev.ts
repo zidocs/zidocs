@@ -21,7 +21,7 @@ export const dev = async () => {
   watcher.on("change", (actualPath: any) => {
     const destinationPath = actualPath.replace(
       sourceFolderPath,
-      `${frontFolder}/public/starter-kit`
+      `${frontFolder}/public`
     );
 
     const fileName = actualPath.split("/").at(-1);
